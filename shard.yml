@@ -1,0 +1,12 @@
+name: opml
+version: 0.1.0
+
+authors:
+  - Martyn Jago <martyn.jagol@btinternet.com>
+
+description: |
+  Hierarchical OPML parser
+
+# dependencies:
+
+    license: MIT
