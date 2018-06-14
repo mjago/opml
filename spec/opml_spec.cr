@@ -167,6 +167,12 @@ END
       ol.first.outlines.last.outlines.size.should eq(2)
     end
   end
+
+  it "parses file and returns Array(Outline)" do
+    ol = Opml.parse_file("spec/test_data/test.opml")
+    ol.class.should eq(Array(Outline))
+  end
+
   it "allows to pass parent to parse method" do
     opml = <<-END
 <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -183,6 +189,19 @@ END
     parent = Outline.new
     parent.name = "parent"
     ol = Opml.parse(opml, parent)
+    ol.class.should eq(Array(Outline))
+    ol.first.parent.should eq(parent)
+    ol.first.parent.class.should eq(Outline)
+    ol.first.parent.not_nil!.name.should eq("parent")
+    ol.first.parent.should eq(parent)
+    ol.first.parent.class.should eq(Outline)
+    ol.first.parent.not_nil!.name.should eq("parent")
+  end
+
+  it "allows to pass parent to parse_file method" do
+    parent = Outline.new
+    parent.name = "parent"
+    ol = Opml.parse_file("spec/test_data/test.opml", parent)
     ol.class.should eq(Array(Outline))
     ol.first.parent.should eq(parent)
     ol.first.parent.class.should eq(Outline)

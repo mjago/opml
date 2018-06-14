@@ -31,17 +31,12 @@ class Outline
 end
 
 class Opml
-  def self.parse_file(str : String) : Array(Outline)
-    text = File.read(str)
-    parse text
-  end
-
-  def self.parse_file(str : String, parent : Outline) : Array(Outline)
+  def self.parse_file(str : String, parent : Outline? = nil) : Array(Outline)
     text = File.read(str)
     parse text, parent
   end
 
-  def self.parse(str : String, parent = nil) : Array(Outline)
+  def self.parse(str : String, parent : Outline? = nil) : Array(Outline)
     outlines = [] of Outline
     doc = parse_root(str)
     unless doc.nil?
