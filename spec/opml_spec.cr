@@ -167,4 +167,28 @@ END
       ol.first.outlines.last.outlines.size.should eq(2)
     end
   end
+  it "allows to pass parent to parse method" do
+    opml = <<-END
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<opml version="2.0">
+  <head>
+  </head>
+  <body>
+    <outline text="some name" abc="def" url="http://example.com"/>
+    <outline notext="no name" ghi="jkl" url="http://example2.com"/>
+    <outline text="another name" mno="pqr" url="http://example3.com"/>
+  </body>
+</opml>
+END
+    parent = Outline.new
+    parent.name = "parent"
+    ol = Opml.parse(opml, parent)
+    ol.class.should eq(Array(Outline))
+    ol.first.parent.should eq(parent)
+    ol.first.parent.class.should eq(Outline)
+    ol.first.parent.not_nil!.name.should eq("parent")
+    ol.first.parent.should eq(parent)
+    ol.first.parent.class.should eq(Outline)
+    ol.first.parent.not_nil!.name.should eq("parent")
+  end
 end

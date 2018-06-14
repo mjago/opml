@@ -36,14 +36,19 @@ class Opml
     parse text
   end
 
-  def self.parse(str : String) : Array(Outline)
+  def self.parse_file(str : String, parent : Outline) : Array(Outline)
+    text = File.read(str)
+    parse text, parent
+  end
+
+  def self.parse(str : String, parent = nil) : Array(Outline)
     outlines = [] of Outline
     doc = parse_root(str)
     unless doc.nil?
       xpath = "//opml/body/outline[@text]"
       node_set = doc.xpath_nodes(xpath)
       node_set.each do |node|
-        outline = Outline.new
+        outline = Outline.new(parent)
 
         # attributes
         attrs = node.attributes
