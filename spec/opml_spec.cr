@@ -38,10 +38,8 @@ END
     it "returns attributes of each outline" do
       ol = Opml.parse(opml)
       ol.first.attributes.size.should eq(2)
-      ol.first.attributes.first.name.should eq("abc")
-      ol.first.attributes.first.value.should eq("def")
-      ol.first.attributes.last.name.should eq("url")
-      ol.first.attributes.last.value.should eq("http://example.com")
+      ol.first.attributes["abc"].should eq("def")
+      ol.first.attributes["url"].should eq("http://example.com")
     end
 
     it "returns nil for parent if no parent" do
@@ -120,13 +118,11 @@ END
 
     it "inner outlines contain attribute named ghi1 with value jkl1" do
       ol = Opml.parse(opml)
-      ol.first.outlines.first.attributes.first.name.should eq "ghi1"
-      ol.first.outlines.first.attributes.first.value.should eq "jkl1"
+      ol.first.outlines.first.attributes["ghi1"].should eq("jkl1")
     end
     it "inner outlines contain attribute named url with value http://example.com" do
       ol = Opml.parse(opml)
-      ol.first.outlines.first.attributes.last.name.should eq "url"
-      ol.first.outlines.first.attributes.last.value.should eq "http://example.com"
+      ol.first.outlines.first.attributes["url"].should eq "http://example.com"
     end
   end
 
@@ -160,9 +156,8 @@ END
       ol.size.should eq(2)
       ol.first.outlines.size.should eq(2)
       ol.first.outlines.first.name.should eq "Mid1"
-      ol.first.outlines.first.attributes.first.name.should eq "ghi1"
-      ol.first.outlines.first.attributes.first.value.should eq "jkl1"
-      ol.first.outlines.first.attributes.last.name.should eq "url"
+      ol.first.outlines.first.attributes["ghi1"].should eq "jkl1"
+      ol.first.outlines.first.attributes.["url"].should eq "http://example.com"
       ol.first.outlines.first.outlines.size.should eq(0)
       ol.first.outlines.last.outlines.size.should eq(2)
     end

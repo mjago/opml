@@ -1,24 +1,15 @@
 require "./opml/*"
 require "xml"
 
-struct Attribute
-  getter name
-  getter value
-
-  def initialize(@name : String, @value : String)
-  end
-end
-
 class Outline
-  property attributes : Array(Attribute)
+  getter attributes
   property outlines : Array(Outline)
   property name : String = ""
   getter parent : Outline?
 
   def initialize(@parent = nil)
-    @attributes = [] of Attribute
-    @outlines = [] of Outline
-    #   @name = ""
+    @attributes = Hash(String, String).new
+    @outlines = Array(Outline).new
   end
 
   def outlines?
@@ -51,8 +42,7 @@ class Opml
           if x.name == "text"
             outline.name = x.content
           else
-            attr = Attribute.new(x.name, x.content)
-            outline.attributes << attr
+            outline.attributes[x.name] = x.content
           end
         end
 
@@ -77,8 +67,7 @@ class Opml
         if y.name == "text"
           inner_outline.name = y.content
         else
-          inner_attr = Attribute.new(y.name, y.content)
-          inner_outline.attributes << inner_attr
+          inner_outline.attributes[y.name] = y.content
         end
       end
 
