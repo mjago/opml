@@ -30,7 +30,7 @@ class Opml
   def self.parse(str : String, parent : Outline? = nil) : Array(Outline)
     outlines = [] of Outline
     doc = parse_root(str)
-    unless doc.nil?
+    if doc
       xpath = "//opml/body/outline[@text]"
       node_set = doc.xpath_nodes(xpath)
       node_set.each do |node|
@@ -82,6 +82,8 @@ class Opml
   end
 
   private def self.parse_root(str)
-    XML.parse(str).root
+    unless str.empty?
+      XML.parse(str).root
+    end
   end
 end
